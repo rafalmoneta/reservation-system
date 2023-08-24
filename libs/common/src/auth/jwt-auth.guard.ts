@@ -5,7 +5,7 @@ import {
   Injectable,
 } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
-import { Observable, map, tap } from 'rxjs';
+import { Observable, catchError, map, of, tap } from 'rxjs';
 import { AUTH_SERVICE } from '../constants/services';
 
 // JWTAuthGuard is a custom guard that we will use to protect our routes.
@@ -43,6 +43,7 @@ export class JwtAuthGuard implements CanActivate {
         // map() is an RxJS operator that allows us to transform
         // the data that is being passed through the observable.
         map(() => true),
+        catchError(() => of(false)),
       );
   }
 }
